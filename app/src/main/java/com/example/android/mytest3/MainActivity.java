@@ -1,6 +1,7 @@
 package com.example.android.mytest3;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.menu.MenuView;
@@ -22,8 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private Toolbar mToolbar;
     private ArrayList<ToDoItem> mToDoItems = new ArrayList<ToDoItem>();
-    private TextView mTextView;
-
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,13 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
 
-        mTextView = (TextView) findViewById(R.id.textView);
+        fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startNewToDoActivity();
+            }
+        });
 
         mAdapter = new CustomAdapter(mToDoItems);
         mRecyclerView.setAdapter(mAdapter);
@@ -55,14 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.addNewToDo:
-                Intent intent = new Intent(this, NewToDoActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void fillRecView() {
@@ -71,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
 
         mToDoItems.add(item1);
         mToDoItems.add(item2);
+    }
+
+    public void startNewToDoActivity() {
+        Intent intent = new Intent(this, NewToDoActivity.class);
+        startActivity(intent);
     }
 
 }
