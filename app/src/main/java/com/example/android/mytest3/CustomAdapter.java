@@ -16,6 +16,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     private ArrayList<ToDoItem> mToDoItemArrayList;
 
+    public ArrayList<ToDoItem> getmToDoItemArrayList() {
+        return mToDoItemArrayList;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView;
         public ViewHolder(View v) {

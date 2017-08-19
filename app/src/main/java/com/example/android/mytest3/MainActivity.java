@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ArrayList<ToDoItem> mToDoItems = new ArrayList<ToDoItem>();
     private FloatingActionButton fab;
+    private String fromNewToDoItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
 
+
         fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter = new CustomAdapter(mToDoItems);
         mRecyclerView.setAdapter(mAdapter);
+
+
     }
 
 
@@ -73,8 +77,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startNewToDoActivity() {
-        Intent intent = new Intent(this, NewToDoActivity.class);
-        startActivity(intent);
+        Intent intentAction = new Intent(this, NewToDoActivity.class);
+        startActivityForResult(intentAction, 1);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        fromNewToDoItem = data.getStringExtra(NewToDoActivity.EXTRA_MESSAGE);
+        int position = 0;
+        ToDoItem newItem = new ToDoItem(fromNewToDoItem);
+        mToDoItems.add(position, newItem);
+        mAdapter.notifyItemInserted(position);
+        mRecyclerView.scrollToPosition(position);
+    }
 }
